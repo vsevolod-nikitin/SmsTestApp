@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="docker-compose.dcproj">
+    <Build />
+  </Project>
+  <Project Path="SmsTestApp.Api/SmsTestApp.Api.csproj" />
+  <Project Path="SmsTestApp.Contracts/SmsTestApp.Contracts.csproj" Id="de529dca-72d4-4779-8e12-3673d22752c7" />
+</Solution>

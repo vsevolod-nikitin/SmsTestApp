@@ -1,0 +1,6 @@
+services:
+  smstestapp.api:
+    image: ${DOCKER_REGISTRY-}smstestapp-api
+    build:
+      context: .
+      dockerfile: SmsTestApp.Api/Dockerfile

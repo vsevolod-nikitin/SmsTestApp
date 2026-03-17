@@ -1,0 +1,7 @@
+services:
+  smstestapp.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "18998:8080"
+      - "18999:50051"
