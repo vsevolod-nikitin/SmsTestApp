@@ -38,6 +38,10 @@ namespace SmsTestApp.ConsoleClient
             services.AddProductsApp(options =>
             {
                 options.HttpEndpoint = configuration["HttpEndpoint"];
+                options.HttpUsername = configuration["HttpUsername"];
+                options.HttpPassword = configuration["HttpPassword"];
+
+                options.GrpcEndpoint = configuration["GrpcEndpoint"];
             });
 
             services.AddRepositories(configuration.GetConnectionString("StorageDB"));

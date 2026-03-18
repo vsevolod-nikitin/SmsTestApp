@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.OpenApi;
 using SmsTestApp.Api.Services;
+using SmsTestApp.Api.Services.Grpc;
 
 internal static class Program
 {
@@ -21,6 +22,8 @@ internal static class Program
         });
 
         builder.Services.ConfigureServices();
+        builder.Services.AddGrpc();
+
         builder.Services.AddControllers();
 
         RegisterOpenApi(builder.Services);
@@ -37,6 +40,7 @@ internal static class Program
         }
 
         app.MapControllers();
+        app.MapGrpcService<SmsTestGrpcService>();
 
         app.Run();
     }

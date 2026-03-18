@@ -11,7 +11,7 @@ namespace SmsTestApp.Contracts.Order
         /// Номер заказа.
         /// </summary>
         [JsonPropertyName("OrderId")]
-        public required Guid OrderId { get; init; }
+        public required string OrderId { get; init; }
 
         /// <summary>
         /// Элементы заказа.

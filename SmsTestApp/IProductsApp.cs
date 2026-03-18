@@ -23,6 +23,6 @@ namespace SmsTestApp
         /// <param name="items">Набор элементов.</param>
         /// <returns>Задача на ожидание.</returns>
         /// <exception cref="InvalidOperationException">Ошибка при отправке заказа.</exception>"
-        Task SendOrderAsync(Guid orderId, IEnumerable<OrderItemDto> items);
+        Task SendOrderAsync(string orderId, IEnumerable<OrderItemDto> items);
     }
 }

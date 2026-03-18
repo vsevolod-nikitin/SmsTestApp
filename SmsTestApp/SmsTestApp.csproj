@@ -11,8 +11,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.34.0" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.76.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.5" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.5" />
+	<PackageReference Include="Grpc.Tools" Version="2.54.0">
+      <PrivateAssets>All</PrivateAssets>
+	</PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+	<Protobuf Include="..\SmsTestApp.Contracts\sms-test-app.proto" GrpcServices="Client" />
   </ItemGroup>
 
 </Project>

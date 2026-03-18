@@ -13,6 +13,6 @@ namespace SmsTestApp.Api.Services
         /// <param name="orderId">Идентификатор заказа.</param>
         /// <param name="items">Элементы заказа.</param>
         /// <returns>Задача на ожидание.</returns>
-        Task SendOrderAsync(Guid orderId, IEnumerable<OrderItemDto> items);
+        Task SendOrderAsync(string orderId, IEnumerable<OrderItemDto> items);
     }
 }

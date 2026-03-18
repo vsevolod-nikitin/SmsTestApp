@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Grpc.Net.Client;
+using Sms.Test;
+using Microsoft.Extensions.DependencyInjection;
 using SmsTestApp.Grpc;
 using SmsTestApp.Rest;
 using System.Net.Http.Headers;
@@ -36,8 +38,17 @@ namespace SmsTestApp
             throw new InvalidOperationException("Не указано ни одной из конечных точек для взаимодействия с продуктами.");
         }
 
+        /// <summary>
+        /// Регистрация gRPC-клиента для взаимодействия с продуктами через gRPC.
+        /// </summary>
+        /// <param name="services">Функционал построения.</param>
+        /// <param name="options">Конфигурация.</param>
         private static void AddGrpcProductsApp(this IServiceCollection services, ProductsAppOptions options)
         {
+            var channel = GrpcChannel.ForAddress(options.GrpcEndpoint!);
+            var client = new SmsTestService.SmsTestServiceClient(channel);
+
+            services.AddSingleton(client);
             services.AddTransient<IProductsApp, GrpcProductsApp>();
         }
 

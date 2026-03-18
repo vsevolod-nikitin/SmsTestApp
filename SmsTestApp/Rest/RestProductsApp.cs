@@ -41,7 +41,7 @@ namespace SmsTestApp.Rest
         }
 
         /// <inheritdoc/>
-        public async Task SendOrderAsync(Guid orderId, IEnumerable<OrderItemDto> items)
+        public async Task SendOrderAsync(string orderId, IEnumerable<OrderItemDto> items)
         {
             var client = clientFactory.CreateClient(nameof(RestProductsApp));
             var payload = new Request
