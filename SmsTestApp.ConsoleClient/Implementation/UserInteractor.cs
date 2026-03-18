@@ -12,10 +12,7 @@ namespace SmsTestApp.ConsoleClient.Implementation
         public string GetUserInput(string requestText)
         {
             logger.LogInformation(requestText);
-            var result = Console.ReadLine() ?? string.Empty;
-            logger.LogInformation(result);
-
-            return result;
+            return Console.ReadLine() ?? string.Empty;
         }
     }
 }

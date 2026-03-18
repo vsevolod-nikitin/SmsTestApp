@@ -19,9 +19,8 @@ namespace SmsTestApp.ConsoleClient
 
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(configuration)
-                .MinimumLevel.Information()
-                .WriteTo.Console()
-                .WriteTo.File($"Logs/test-sms-console-app-{DateTime.Now:yyyyMMdd}.log")
+                .WriteTo.Console(outputTemplate: "{Message:lj}{NewLine}")
+                .WriteTo.File($"Logs/test-sms-console-app-{DateTime.Now:yyyyMMdd}.log", outputTemplate: "{Message:lj}{NewLine}")
                 .CreateLogger();
 
             var builder = new ServiceCollection();
