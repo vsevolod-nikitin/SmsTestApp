@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SmsTestApp.Api.Services;
+using SmsTestApp.Contracts;
 using SmsTestApp.Contracts.Menu;
+using System.Text.Json;
 
 namespace SmsTestApp.Api.Controllers
 {
@@ -15,23 +17,75 @@ namespace SmsTestApp.Api.Controllers
     public class GatewayController(IMenuService menuService) : ControllerBase
     {
         /// <summary>
-        /// Получить набор доступных блюд.
+        /// Выполнение произвольного запроса.
         /// </summary>
-        /// <param name="request">Запрос на получение.</param>
-        /// <returns>Набор блюд.</returns>
-        [HttpGet("menus", Name = "GetMenu")]
-        [ProducesResponseType<GetMenuResponse>(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetMenu(GetMenuRequest request)
+        /// <param name="request">Запрос.</param>
+        /// <returns>Набор данных.</returns>
+        [HttpPost("execute-request", Name = "ExecuteRequest")]
+        [ProducesResponseType<Response>(StatusCodes.Status200OK)]
+        public async Task<IActionResult> ExecuteRequest(Request request)
         {
-            var items = await menuService.GetMenuAsync(request.CommandParameters.WithPrice);
-
-            var response = new GetMenuResponse
+            try
             {
-                Success = true,
-            };
-            response.Data.MenuItems.AddRange(items);
+                var result = await ExecuteRequestAsync(request.Command, request.CommandParameters);
+                return Ok(new Response
+                {
+                    Command = request.Command,
+                    Success = true,
+                    Data = result,
+                });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new Response
+                {
+                    Command = request.Command,
+                    Success = false,
+                    ErrorMessage = ex.Message,
+                });
+            }
+        }
 
-            return Ok(response);
+
+        /// <summary>
+        /// Выполнить запрос на основе команды и параметров.
+        /// </summary>
+        /// <param name="command">Команда на выполнение.</param>
+        /// <param name="parameters">Параметры.</param>
+        /// <returns>Результат работы.</returns>
+        /// <exception cref="InvalidOperationException">Команда недоступна.</exception>
+        private async Task<object> ExecuteRequestAsync(string command, object parameters)
+        {
+            // В реальной реализации здесь будет логика обработки различных типов команд.
+            // Сейчас зашиты только команды для получения меню и отправки заказа.
+            return command switch
+            {
+                "GetMenu" => await GetMenuAsync(GetRequestParameters<GetMenuRequest>(parameters)),
+                _ => throw new InvalidOperationException($"Unsupported command: {command}")
+            };
+        }
+
+        private async Task<GetMenuResponse> GetMenuAsync(GetMenuRequest request)
+        {
+            var response = new GetMenuResponse();
+
+            response.MenuItems.AddRange(await menuService.GetMenuAsync(request.WithPrice));
+
+            return response;
+        }
+
+        /// <summary>
+        /// Произвести разбор параметров запроса в указанный тип.
+        /// </summary>
+        /// <typeparam name="T">Тип параметров.</typeparam>
+        /// <param name="parameters">Параметры.</param>
+        /// <returns>Набор параметров.</returns>
+        /// <exception cref="InvalidOperationException">Разбор параметров произвести не удалось.</exception>
+        private static T GetRequestParameters<T>(object parameters)
+        {
+            // В реальной реализации может потребоваться валидация. Сейчас она отсутствует.
+            return JsonSerializer.Deserialize<T>(parameters.ToString() ?? string.Empty)
+                    ?? throw new InvalidOperationException("Failed to deserialize command parameters.");
         }
     }
 }

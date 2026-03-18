@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.OpenApi.Models;
 using SmsTestApp.Api.Services;
-using System.Reflection;
 internal static class Program
 {
     public static void Main(string[] args)

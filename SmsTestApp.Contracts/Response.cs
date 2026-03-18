@@ -1,30 +1,34 @@
-﻿namespace SmsTestApp.Contracts
+﻿using System.Text.Json.Serialization;
+
+namespace SmsTestApp.Contracts
 {
     /// <summary>
-    /// Базовая реализация ответа.
+    /// Ответ от сервиса.
     /// </summary>
-    /// <typeparam name="T">Тип возвращаемых данных.</typeparam>
-    public abstract record ResponseBase<T>
-        where T : new()
+    public record Response
     {
         /// <summary>
         /// Тип выполненной команды.
         /// </summary>
-        public abstract string Command { get; }
-        
+        [JsonPropertyName("Command")]
+        public required string Command { get; init; }
+
         /// <summary>
         /// Признак успешного выполнения.
         /// </summary>
+        [JsonPropertyName("Success")]
         public required bool Success { get; init; }
 
         /// <summary>
         /// Текст ошибки при неуспешном выполнении команды.
         /// </summary>
+        [JsonPropertyName("ErrorMessage")]
         public string ErrorMessage { get; init; } = string.Empty;
 
         /// <summary>
         /// Результат.
         /// </summary>
-        public T Data { get; } = new();
+        [JsonPropertyName("Data")]
+        public object Data { get; init; } = new();
     }
 }

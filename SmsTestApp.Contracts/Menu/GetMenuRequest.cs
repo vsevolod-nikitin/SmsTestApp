@@ -1,22 +1,16 @@
-﻿namespace SmsTestApp.Contracts.Menu
+﻿using System.Text.Json.Serialization;
+
+namespace SmsTestApp.Contracts.Menu
 {
     /// <summary>
     /// Запрос на получение меню.
     /// </summary>
-    public sealed record GetMenuRequest : RequestBase<GetMenuRequest.MenuParameters>
+    public sealed record GetMenuRequest
     {
-        /// <inheritdoc/>
-        public override string Command => "GetMenu";
-
         /// <summary>
-        /// Параметры получения меню.
+        /// Признак получения цен на блюда.
         /// </summary>
-        public sealed record MenuParameters
-        {
-            /// <summary>
-            /// Признак получения цен на блюда.
-            /// </summary>
-            public bool WithPrice { get; init; }
-        }
+        [JsonPropertyName("WithPrice")]
+        public bool WithPrice { get; init; }
     }
 }

@@ -1,22 +1,16 @@
-﻿namespace SmsTestApp.Contracts.Menu
+﻿using System.Text.Json.Serialization;
+
+namespace SmsTestApp.Contracts.Menu
 {
     /// <summary>
     /// Информация о меню.
     /// </summary>
-    public sealed record GetMenuResponse : ResponseBase<GetMenuResponse.MenuStructure>
+    public sealed record GetMenuResponse
     {
-        /// <inheritdoc/>
-        public override string Command => "GetMenu";
-
         /// <summary>
-        /// Структура ответа на запрос меню.
+        /// Элементы меню.
         /// </summary>
-        public sealed record MenuStructure
-        {
-            /// <summary>
-            /// Элементы меню.
-            /// </summary>
-            public List<MenuItem> MenuItems { get; } = [];
-        }
+        [JsonPropertyName("MenuItems")]
+        public List<MenuItem> MenuItems { get; } = [];
     }
 }
