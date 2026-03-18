@@ -47,6 +47,6 @@ namespace SmsTestApp.Contracts.Menu
         /// Штрихкоды, по которым можно идентифицировать блюдо.
         /// </summary>
         [JsonPropertyName("Barcodes")]
-        public List<string> Barcodes { get; } = [];
+        public List<string> Barcodes { get; init; } = [];
     }
 }

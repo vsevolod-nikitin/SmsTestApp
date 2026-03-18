@@ -3,5 +3,7 @@
     <Build />
   </Project>
   <Project Path="SmsTestApp.Api/SmsTestApp.Api.csproj" />
+  <Project Path="SmsTestApp.ConsoleClient/SmsTestApp.ConsoleClient.csproj" Id="771a3c36-1116-4b55-852d-f78fb77f9f98" />
   <Project Path="SmsTestApp.Contracts/SmsTestApp.Contracts.csproj" Id="de529dca-72d4-4779-8e12-3673d22752c7" />
+  <Project Path="SmsTestApp/SmsTestApp.csproj" Id="39bc813e-bc97-4bc8-9069-79d04697ece6" />
 </Solution>

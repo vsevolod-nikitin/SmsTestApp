@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Mvc;
 using SmsTestApp.Api.Services;
 using SmsTestApp.Contracts;
 using SmsTestApp.Contracts.Menu;

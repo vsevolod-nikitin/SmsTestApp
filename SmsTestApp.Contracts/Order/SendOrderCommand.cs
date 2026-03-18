@@ -17,6 +17,6 @@ namespace SmsTestApp.Contracts.Order
         /// Элементы заказа.
         /// </summary>
         [JsonPropertyName("MenuItems")]
-        public List<OrderItem> Items { get; } = [];
+        public List<OrderItem> Items { get; init; } = [];
     }
 }

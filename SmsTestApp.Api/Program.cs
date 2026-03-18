@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using SmsTestApp.Api.Services;
+
 internal static class Program
 {
-    public static void Main(string[] args)
+    static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
         builder.WebHost.ConfigureKestrel(options =>
@@ -28,7 +29,10 @@ internal static class Program
 
         if (app.Environment.IsDevelopment())
         {
-            app.UseSwagger();
+            app.UseSwagger(options =>
+            {
+                options.OpenApiVersion = OpenApiSpecVersion.OpenApi2_0;
+            });
             app.UseSwaggerUI();
         }
 
@@ -43,17 +47,13 @@ internal static class Program
     /// <param name="services">Функционал построения.</param>
     private static void RegisterOpenApi(IServiceCollection services)
     {
-        services.AddApiVersioning(options =>
-        {
-            options.ReportApiVersions = true;
-            options.AssumeDefaultVersionWhenUnspecified = true;
-        });
-
-        services.AddVersionedApiExplorer(options =>
-        {
-            options.GroupNameFormat = "'v'VVV";
-            options.SubstituteApiVersionInUrl = true;
-        });
+        services.AddApiVersioning()
+            .AddMvc()
+            .AddApiExplorer((options) =>
+            {
+                options.GroupNameFormat = "'v'VVV";
+                options.SubstituteApiVersionInUrl = true;
+            });
 
         services.AddSwaggerGen(options =>
         {
