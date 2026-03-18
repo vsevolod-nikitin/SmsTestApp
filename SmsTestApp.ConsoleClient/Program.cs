@@ -19,7 +19,14 @@ namespace SmsTestApp.ConsoleClient
             var serviceProvider = builder.BuildServiceProvider();
             var manager = serviceProvider.GetRequiredService<ProductsManager>();
 
-            await manager.RunAsync();
+            try
+            {
+                await manager.RunAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
             // Блокируем консоль, чтобы увидеть результат.
             Console.ReadLine();
