@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SmsTestApp.ConsoleClient.Implementation;
+using SmsTestApp.ConsoleClient.Orders;
+using SmsTestApp.ConsoleClient.Orders.Implementation;
 using SmsTestApp.ConsoleClient.Repository;
 
 namespace SmsTestApp.ConsoleClient
@@ -41,6 +43,7 @@ namespace SmsTestApp.ConsoleClient
         {
             services.AddTransient<ProductsManager>();
             services.AddTransient<IUserInteractor, UserInteractor>();
+            services.AddTransient<IOrderFactory, OrderFactory>();
 
             services.AddProductsApp(options =>
             {

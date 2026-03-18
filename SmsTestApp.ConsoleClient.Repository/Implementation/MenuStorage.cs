@@ -10,6 +10,8 @@ namespace SmsTestApp.ConsoleClient.Repository.Implementation
     /// <param name="contextFactory">Фабрика контекстов данных.</param>
     internal sealed class MenuStorage(IDbContextFactory<StorageContext> contextFactory) : IMenuStorage
     {
+        private readonly HashSet<string> _articles = [];
+
         /// <inheritdoc/>
         public async Task UpdateProductsAsync(IEnumerable<MenuItemDto> products)
         {
@@ -32,8 +34,11 @@ namespace SmsTestApp.ConsoleClient.Repository.Implementation
                 .ToListAsync();
 
             // Если в базе данных уже есть элемент с таким Id, то обновляем его поля и штрихкоды, иначе создаём новый элемент
+            _articles.Clear();
             foreach (var prod in productList)
             {
+                _articles.Add(prod.Article);
+
                 var existing = existingItems.FirstOrDefault(e => e.Id == prod.Id);
                 if (existing is not null)
                 {
@@ -80,6 +85,13 @@ namespace SmsTestApp.ConsoleClient.Repository.Implementation
             }
 
             await context.SaveChangesAsync();
+        }
+
+        /// <inheritdoc/>
+        public Task<bool> IsArticleValidAsync(string article)
+        {
+            // Можно проверить наличие артикула в БД, но как вариант используем кэш (т.к. регистрируемся как Singleton).
+            return Task.FromResult(_articles.Contains(article));
         }
     }
 }

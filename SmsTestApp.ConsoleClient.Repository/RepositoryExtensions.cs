@@ -17,7 +17,7 @@ namespace SmsTestApp.ConsoleClient.Repository
         /// <remarks>Добавляет реализацию <see cref="IMenuStorage"/>.</remarks>
         public static void AddRepositories(this IServiceCollection services, string dbConnectionString)
         {
-            services.AddScoped<IMenuStorage, MenuStorage>();
+            services.AddSingleton<IMenuStorage, MenuStorage>();
 
             services.AddDbContextFactory<StorageContext>(options =>
             {

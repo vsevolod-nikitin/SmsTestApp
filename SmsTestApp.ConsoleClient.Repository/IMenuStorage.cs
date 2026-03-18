@@ -13,5 +13,12 @@ namespace SmsTestApp.ConsoleClient.Repository
         /// <param name="products">Набор продуктов.</param>
         /// <returns>Задача на ожидание.</returns>
         Task UpdateProductsAsync(IEnumerable<MenuItemDto> products);
+
+        /// <summary>
+        /// Получить признак валидности артикула.
+        /// </summary>
+        /// <param name="article">Артикул.</param>
+        /// <returns>Признак валидного артикула.</returns>
+        Task<bool> IsArticleValidAsync(string article);
     }
 }

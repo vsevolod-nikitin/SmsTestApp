@@ -10,5 +10,12 @@
         {
             Console.WriteLine(message);
         }
+
+        /// <inheritdoc/>
+        public string GetUserInput(string requestText)
+        {
+            Console.WriteLine(requestText);
+            return Console.ReadLine() ?? string.Empty;
+        }
     }
 }
