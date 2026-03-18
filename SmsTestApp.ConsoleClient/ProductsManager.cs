@@ -1,4 +1,5 @@
-﻿using SmsTestApp.ConsoleClient.Orders;
+﻿using Microsoft.Extensions.Logging;
+using SmsTestApp.ConsoleClient.Orders;
 using SmsTestApp.ConsoleClient.Repository;
 
 namespace SmsTestApp.ConsoleClient
@@ -10,11 +11,13 @@ namespace SmsTestApp.ConsoleClient
     /// <param name="userInteractor">Функционал взаимодействия с пользователем.</param>
     /// <param name="menuStorage">Функционал хранения информации о блюдах.</param>
     /// <param name="orderFactory">Фабрика новых заказов.</param>
+    /// <param name="logger">Функционал логирования.</param>
     internal sealed class ProductsManager(
         IProductsApp productsApp,
         IUserInteractor userInteractor,
         IMenuStorage menuStorage,
-        IOrderFactory orderFactory)
+        IOrderFactory orderFactory,
+        ILogger<ProductsManager> logger)
     {
         /// <summary>
         /// Запустить приложение.
@@ -28,7 +31,7 @@ namespace SmsTestApp.ConsoleClient
 
             foreach (var item in menuItems)
             {
-                userInteractor.LogInfo($"{item.Name} - {item.Article} - {item.Price}");
+                logger.LogInformation("{Name} - {Article} - {Price}", item.Name, item.Article, item.Price);
             }
 
             // Формируем заказ на основе пользовательского ввода.
@@ -43,7 +46,7 @@ namespace SmsTestApp.ConsoleClient
                 }
                 catch (Exception ex)
                 {
-                    userInteractor.LogInfo(ex.Message);
+                    logger.LogError(ex, ex.Message);
                     continue;
                 }
             }
@@ -52,11 +55,11 @@ namespace SmsTestApp.ConsoleClient
             try
             {
                 await productsApp.SendOrderAsync(order.OrderId.ToString(), order.Items);
-                userInteractor.LogInfo("УСПЕХ");
+                logger.LogInformation("УСПЕХ");
             }
             catch (Exception ex)
             {
-                userInteractor.LogInfo(ex.Message);
+                logger.LogError(ex, ex.Message);
             }
         }
     }

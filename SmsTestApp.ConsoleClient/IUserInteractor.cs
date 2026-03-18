@@ -6,12 +6,6 @@
     internal interface IUserInteractor
     {
         /// <summary>
-        /// Вывести информационное сообщение.
-        /// </summary>
-        /// <param name="message">Текст сообщения.</param>
-        void LogInfo(string message);
-
-        /// <summary>
         /// Получить строку ввода от пользователя.
         /// </summary>
         /// <param name="requestText">Текст запроса для пользователя.</param>

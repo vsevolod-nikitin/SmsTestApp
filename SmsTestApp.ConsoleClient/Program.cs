@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Serilog;
 using SmsTestApp.ConsoleClient.Implementation;
 using SmsTestApp.ConsoleClient.Orders;
 using SmsTestApp.ConsoleClient.Orders.Implementation;
@@ -15,7 +17,20 @@ namespace SmsTestApp.ConsoleClient
                 .AddJsonFile("appsettings.json")
                 .Build();
 
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(configuration)
+                .MinimumLevel.Information()
+                .WriteTo.Console()
+                .WriteTo.File($"Logs/test-sms-console-app-{DateTime.Now:yyyyMMdd}.log")
+                .CreateLogger();
+
             var builder = new ServiceCollection();
+            builder.AddLogging(lb =>
+            {
+                lb.ClearProviders();
+                lb.AddSerilog(Log.Logger, dispose: true);
+            });
+
             RegisterApp(builder, configuration);
 
             var serviceProvider = builder.BuildServiceProvider();
@@ -27,7 +42,12 @@ namespace SmsTestApp.ConsoleClient
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Log.Error(ex, "Ошибка выполнения менеджера продуктов");
+            }
+            finally
+            {
+                // Гарантированно сбрасываем и закрываем Serilog.
+                Log.CloseAndFlush();
             }
 
             // Блокируем консоль, чтобы увидеть результат.
