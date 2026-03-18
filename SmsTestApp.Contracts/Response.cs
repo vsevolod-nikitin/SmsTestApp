@@ -29,6 +29,6 @@ namespace SmsTestApp.Contracts
         /// Результат.
         /// </summary>
         [JsonPropertyName("Data")]
-        public object Data { get; init; } = new();
+        public object? Data { get; init; }
     }
 }

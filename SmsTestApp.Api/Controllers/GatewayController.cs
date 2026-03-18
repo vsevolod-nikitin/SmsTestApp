@@ -2,6 +2,7 @@
 using SmsTestApp.Api.Services;
 using SmsTestApp.Contracts;
 using SmsTestApp.Contracts.Menu;
+using SmsTestApp.Contracts.Order;
 using System.Text.Json;
 
 namespace SmsTestApp.Api.Controllers
@@ -10,11 +11,14 @@ namespace SmsTestApp.Api.Controllers
     /// REST реализация тестового API.
     /// </summary>
     /// <param name="menuService">Сервис для работы с меню.</param>
+    /// <param name="orderService">Сервис для работы с заказами.</param>
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}")]
     [Produces("application/json")]
-    public class GatewayController(IMenuService menuService) : ControllerBase
+    public class GatewayController(
+        IMenuService menuService,
+        IOrderService orderService) : ControllerBase
     {
         /// <summary>
         /// Выполнение произвольного запроса.
@@ -54,13 +58,14 @@ namespace SmsTestApp.Api.Controllers
         /// <param name="parameters">Параметры.</param>
         /// <returns>Результат работы.</returns>
         /// <exception cref="InvalidOperationException">Команда недоступна.</exception>
-        private async Task<object> ExecuteRequestAsync(string command, object parameters)
+        private async Task<object?> ExecuteRequestAsync(string command, object parameters)
         {
             // В реальной реализации здесь будет логика обработки различных типов команд.
             // Сейчас зашиты только команды для получения меню и отправки заказа.
             return command switch
             {
                 "GetMenu" => await GetMenuAsync(GetRequestParameters<GetMenuRequest>(parameters)),
+                "SendOrder" => await SendOrderAsync(GetRequestParameters<SendOrderCommand>(parameters)),
                 _ => throw new InvalidOperationException($"Unsupported command: {command}")
             };
         }
@@ -69,9 +74,16 @@ namespace SmsTestApp.Api.Controllers
         {
             var response = new GetMenuResponse();
 
-            response.MenuItems.AddRange(await menuService.GetMenuAsync(request.WithPrice));
+            response.Items.AddRange(await menuService.GetMenuAsync(request.WithPrice));
 
             return response;
+        }
+
+        private async Task<object?> SendOrderAsync(SendOrderCommand command)
+        {
+            await orderService.SendOrderAsync(command.OrderId, command.Items);
+
+            return null;
         }
 
         /// <summary>

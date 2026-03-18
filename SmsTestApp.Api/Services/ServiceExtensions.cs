@@ -14,6 +14,7 @@ namespace SmsTestApp.Api.Services
         public static void ConfigureServices(this IServiceCollection services)
         {
             services.AddScoped<IMenuService, MenuService>();
+            services.AddScoped<IOrderService, OrderService>();
         }
     }
 }
