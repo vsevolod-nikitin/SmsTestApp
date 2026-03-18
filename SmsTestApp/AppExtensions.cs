@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SmsTestApp.Grpc;
 using SmsTestApp.Rest;
+using System.Net.Http.Headers;
+using System.Text;
 
 namespace SmsTestApp
 {
@@ -51,6 +53,12 @@ namespace SmsTestApp
             {
                 client.BaseAddress = new Uri(options.HttpEndpoint!);
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
+
+                if (!string.IsNullOrEmpty(options.HttpUsername) && !string.IsNullOrEmpty(options.HttpPassword))
+                {
+                    var byteArray = Encoding.ASCII.GetBytes($"{options.HttpUsername}:{options.HttpPassword}");
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+                }
             });
         }
     }
