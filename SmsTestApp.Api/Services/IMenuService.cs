@@ -12,6 +12,6 @@ namespace SmsTestApp.Api.Services
         /// </summary>
         /// <param name="withPrice">Признак получения цен на блюда.</param>
         /// <returns>Набор блюд.</returns>
-        Task<IEnumerable<MenuItem>> GetMenuAsync(bool withPrice);
+        Task<IEnumerable<MenuItemDto>> GetMenuAsync(bool withPrice);
     }
 }

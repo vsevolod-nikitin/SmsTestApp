@@ -12,6 +12,7 @@
 
         /// <summary>
         /// Точка доступа к gRPC API.
+        /// Является приоритетной, если указано вместе с <see cref="HttpEndpoint"/>. В случае указания обеих точек доступа, будет использоваться gRPC API.
         /// </summary>
         public string? GrpcEndpoint { get; set; }
     }

@@ -13,14 +13,16 @@ namespace SmsTestApp
         /// </summary>
         /// <param name="withPrice">Признак получения цен.</param>
         /// <returns>Набор элементов.</returns>
-        Task<IEnumerable<MenuItem>> GetMenuAsync(bool withPrice);
+        /// <exception cref="InvalidOperationException">Ошибка при получении меню.</exception>"
+        Task<IEnumerable<MenuItemDto>> GetMenuAsync(bool withPrice);
 
         /// <summary>
         /// Отправить заказ на выполнение.
         /// </summary>
         /// <param name="orderId">Идентификатор заказа.</param>
         /// <param name="items">Набор элементов.</param>
-        /// <returns>Признак успешной отправки.</returns>
-        Task<bool> SendOrderAsync(Guid orderId, IEnumerable<OrderItem> items);
+        /// <returns>Задача на ожидание.</returns>
+        /// <exception cref="InvalidOperationException">Ошибка при отправке заказа.</exception>"
+        Task SendOrderAsync(Guid orderId, IEnumerable<OrderItemDto> items);
     }
 }

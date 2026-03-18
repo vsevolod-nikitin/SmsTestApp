@@ -11,6 +11,6 @@ namespace SmsTestApp.Contracts.Menu
         /// Элементы меню.
         /// </summary>
         [JsonPropertyName("MenuItems")]
-        public List<MenuItem> Items { get; init; } = [];
+        public List<MenuItemDto> Items { get; init; } = [];
     }
 }

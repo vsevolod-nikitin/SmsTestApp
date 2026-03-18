@@ -5,7 +5,7 @@ namespace SmsTestApp.Contracts.Order
     /// <summary>
     /// Элемент заказа.
     /// </summary>
-    public sealed record OrderItem
+    public sealed record OrderItemDto
     {
         /// <summary>
         /// Идентификатор блюда из меню.

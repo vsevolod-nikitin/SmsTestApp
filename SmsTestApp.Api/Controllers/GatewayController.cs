@@ -73,9 +73,10 @@ namespace SmsTestApp.Api.Controllers
 
         private async Task<GetMenuResponse> GetMenuAsync(GetMenuRequest request)
         {
-            var response = new GetMenuResponse();
-
-            response.Items.AddRange(await menuService.GetMenuAsync(request.WithPrice));
+            var response = new GetMenuResponse
+            {
+                Items = [.. await menuService.GetMenuAsync(request.WithPrice)]
+            };
 
             return response;
         }

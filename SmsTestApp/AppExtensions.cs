@@ -22,15 +22,16 @@ namespace SmsTestApp
             if (!string.IsNullOrEmpty(options.GrpcEndpoint))
             {
                 services.AddGrpcProductsApp(options);
+                return;
             }
-            else if (!string.IsNullOrEmpty(options.HttpEndpoint))
+
+            if (!string.IsNullOrEmpty(options.HttpEndpoint))
             {
                 services.AddRestProductsApp(options);
+                return;
             }
-            else
-            {
-                throw new InvalidOperationException("Не указано ни одной из конечных точек для взаимодействия с продуктами.");
-            }
+
+            throw new InvalidOperationException("Не указано ни одной из конечных точек для взаимодействия с продуктами.");
         }
 
         private static void AddGrpcProductsApp(this IServiceCollection services, ProductsAppOptions options)
@@ -38,6 +39,11 @@ namespace SmsTestApp
             services.AddTransient<IProductsApp, GrpcProductsApp>();
         }
 
+        /// <summary>
+        /// Регистрация Http-клиента для взаимодействия с продуктами через REST API.
+        /// </summary>
+        /// <param name="services">Функционал построения.</param>
+        /// <param name="options">Конфигурация.</param>
         private static void AddRestProductsApp(this IServiceCollection services, ProductsAppOptions options)
         {
             services.AddTransient<IProductsApp, RestProductsApp>();

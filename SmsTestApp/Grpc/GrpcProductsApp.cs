@@ -5,12 +5,12 @@ namespace SmsTestApp.Grpc
 {
     internal sealed class GrpcProductsApp : IProductsApp
     {
-        public Task<IEnumerable<MenuItem>> GetMenuAsync(bool withPrices)
+        public Task<IEnumerable<MenuItemDto>> GetMenuAsync(bool withPrices)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> SendOrderAsync(Guid orderId, IEnumerable<OrderItem> items)
+        public Task SendOrderAsync(Guid orderId, IEnumerable<OrderItemDto> items)
         {
             throw new NotImplementedException();
         }

@@ -5,7 +5,7 @@ namespace SmsTestApp.Contracts.Menu
     /// <summary>
     /// Отдельное блюдо.
     /// </summary>
-    public sealed record MenuItem
+    public sealed record MenuItemDto
     {
         /// <summary>
         /// Уникальный идентификатор блюда.

@@ -8,7 +8,7 @@ namespace SmsTestApp.Api.Services.Implementation
     public sealed class OrderService : IOrderService
     {
         /// <inheritdoc/>
-        public Task SendOrderAsync(Guid orderId, IEnumerable<OrderItem> items)
+        public Task SendOrderAsync(Guid orderId, IEnumerable<OrderItemDto> items)
         {
             // В тестовом варианте ничего не делаем.
             return Task.CompletedTask;

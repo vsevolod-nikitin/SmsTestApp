@@ -5,3 +5,17 @@ services:
     ports:
       - "18998:8080"
       - "18999:50051"
+
+  smstestapp.db:
+    environment:
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: test_password
+    ports:
+      - "18997:5432"
+
+  smstestapp.dbadmin:
+    environment:
+      PGADMIN_DEFAULT_EMAIL: test@test.com
+      PGADMIN_DEFAULT_PASSWORD: test_password
+    ports:
+      - "18996:80"

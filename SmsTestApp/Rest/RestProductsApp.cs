@@ -12,10 +12,8 @@ namespace SmsTestApp.Rest
     /// <param name="clientFactory">Фабрика клиентов для выполнения запросов.</param>
     internal sealed class RestProductsApp(IHttpClientFactory clientFactory) : IProductsApp
     {
-        private static readonly string Endpoint = "v1/execute-request";
-
         /// <inheritdoc/>
-        public async Task<IEnumerable<MenuItem>> GetMenuAsync(bool withPrice)
+        public async Task<IEnumerable<MenuItemDto>> GetMenuAsync(bool withPrice)
         {
             var client = clientFactory.CreateClient(nameof(RestProductsApp));
             var payload = new Request
@@ -27,7 +25,7 @@ namespace SmsTestApp.Rest
                 }
             };
 
-            var response = await client.PostAsJsonAsync(Endpoint, payload);
+            var response = await client.PostAsJsonAsync(string.Empty, payload);
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadFromJsonAsync<Response>()
@@ -43,9 +41,29 @@ namespace SmsTestApp.Rest
         }
 
         /// <inheritdoc/>
-        public Task<bool> SendOrderAsync(Guid orderId, IEnumerable<OrderItem> items)
+        public async Task SendOrderAsync(Guid orderId, IEnumerable<OrderItemDto> items)
         {
-            throw new NotImplementedException();
+            var client = clientFactory.CreateClient(nameof(RestProductsApp));
+            var payload = new Request
+            {
+                Command = "SendOrder",
+                CommandParameters = new SendOrderCommand
+                {
+                    OrderId = orderId,
+                    Items = [.. items],
+                }
+            };
+
+            var response = await client.PostAsJsonAsync(string.Empty, payload);
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadFromJsonAsync<Response>()
+                ?? throw new InvalidOperationException("Empty response");
+
+            if (!content.Success)
+            {
+                throw new InvalidOperationException(content.ErrorMessage);
+            }
         }
     }
 }

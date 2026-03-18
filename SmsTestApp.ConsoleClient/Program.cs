@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SmsTestApp.ConsoleClient.Implementation;
+using SmsTestApp.ConsoleClient.Repository;
 
 namespace SmsTestApp.ConsoleClient
 {
@@ -38,6 +39,8 @@ namespace SmsTestApp.ConsoleClient
             {
                 options.HttpEndpoint = configuration["HttpEndpoint"];
             });
+
+            services.AddRepositories(configuration.GetConnectionString("StorageDB"));
         }
     }
 }

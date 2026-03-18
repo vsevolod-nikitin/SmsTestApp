@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SmsTestApp.ConsoleClient.Repository\SmsTestApp.ConsoleClient.Repository.csproj" />
     <ProjectReference Include="..\SmsTestApp\SmsTestApp.csproj" />
   </ItemGroup>
 
