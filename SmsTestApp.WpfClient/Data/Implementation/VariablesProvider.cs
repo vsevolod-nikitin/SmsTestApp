@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace SmsTestApp.WpfClient.Data.Implementation
 {
@@ -13,7 +14,8 @@ namespace SmsTestApp.WpfClient.Data.Implementation
         /// Создать новый экземпляр <see cref="VariablesProvider"/>.
         /// </summary>
         /// <param name="configuration">Конфигурация функционала.</param>
-        public VariablesProvider(IConfiguration configuration)
+        /// <param name="logger">Функционал логирования.</param>
+        public VariablesProvider(IConfiguration configuration, ILogger<VariableItem> logger)
         {
             // Инициализация переменных среды на основе конфигурации
             foreach (var section in configuration.GetSection("EnvironmentVariables").GetChildren())
@@ -21,7 +23,7 @@ namespace SmsTestApp.WpfClient.Data.Implementation
                 var name = section.Key;
                 var description = section.Value;
 
-                var variable = new VariableItem(name, description);
+                var variable = new VariableItem(name, description, logger);
                 _variables.Add(variable);
             }
         }

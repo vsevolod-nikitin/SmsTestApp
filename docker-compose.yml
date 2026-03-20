@@ -8,8 +8,3 @@ services:
 
   smstestapp.db:
     image: postgres:15
-    
-  smstestapp.dbadmin:
-    image: dpage/pgadmin4:latest
-    depends_on:
-      - smstestapp.db

@@ -1,9 +1,17 @@
-﻿namespace SmsTestApp.WpfClient.Data.Implementation
+﻿using Microsoft.Extensions.Logging;
+
+namespace SmsTestApp.WpfClient.Data.Implementation
 {
     /// <summary>
     /// Реализация переменной среды.
     /// </summary>
-    internal sealed class VariableItem(string name, string? description) : IVariableItem
+    /// <param name="name">Наименование.</param>
+    /// <param name="description">Описание.</param>
+    /// <param name="logger">Функционал логирования.</param>
+    internal sealed class VariableItem(
+        string name,
+        string? description,
+        ILogger logger) : IVariableItem
     {
         private string? _value = Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.User);
 
@@ -20,6 +28,8 @@
                 {
                     Environment.SetEnvironmentVariable(Name, value, EnvironmentVariableTarget.User);
                     _value = value;
+
+                    logger.LogInformation("Variable set: {Name} = {Value}", Name, value);
                 }
                 catch (Exception ex)
                 {
