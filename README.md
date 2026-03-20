@@ -31,10 +31,12 @@
 ### Шаги запуска
 
 1. Клонируйте репозиторий и перейдите в корневую директорию:
+
 ```git clone https://github.com/vsevolod-nikitin/SmsTestApp.git cd SmsTestApp```
 
 2. Соберите и запустите контейнеры:
-docker-compose up -d --build
+
+```docker-compose up -d --build```
 
 3. После запуска будут доступны следующие сервисы:
 
@@ -54,7 +56,8 @@ http://localhost:18998/swagger
 ### Остановка контура
 
 Чтобы остановить и удалить контейнеры, выполните команду:
-docker-compose down
+
+```docker-compose down```
 
 ## Запуск клиентских приложений
 
@@ -63,10 +66,12 @@ docker-compose down
 1. Убедитесь, что тестовый контур запущен (см. выше).
 2. Настройте `appsettings.json` в проекте — укажите адреса эндпоинтов и строку подключения к БД.
 3. Запустите проект:
+
 ```dotnet run --project SmsTestApp.ConsoleClient```
 
 ### SmsTestApp.WpfClient
 
 1. Настройте секцию `EnvironmentVariables` в `appsettings.json` проекта.
 2. Запустите проект из Visual Studio или командной строки:
+
 ```dotnet run --project SmsTestApp.WpfClient```
