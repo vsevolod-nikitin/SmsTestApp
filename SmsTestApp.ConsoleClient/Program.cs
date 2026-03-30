@@ -33,7 +33,7 @@ namespace SmsTestApp.ConsoleClient
             RegisterApp(builder, configuration);
 
             var serviceProvider = builder.BuildServiceProvider();
-            var manager = serviceProvider.GetRequiredService<ProductsManager>();
+            var manager = serviceProvider.GetRequiredService<IProductsManager>();
 
             try
             {
@@ -41,7 +41,7 @@ namespace SmsTestApp.ConsoleClient
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Ошибка выполнения менеджера продуктов");
+                Log.Error(ex, ex.Message);
             }
             finally
             {
@@ -60,7 +60,7 @@ namespace SmsTestApp.ConsoleClient
         /// <param name="configuration">Конфигурация функционала.</param>
         private static void RegisterApp(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddTransient<ProductsManager>();
+            services.AddTransient<IProductsManager, ProductsManager>();
             services.AddTransient<IUserInteractor, UserInteractor>();
             services.AddTransient<IOrderFactory, OrderFactory>();
 
