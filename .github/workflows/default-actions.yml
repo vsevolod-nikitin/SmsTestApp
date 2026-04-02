@@ -1,0 +1,67 @@
+name: DefaultActions
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+          cache: true
+          cache-dependency-path: |
+            src/SmsTestApp.Api/packages.lock.json
+            src/SmsTestApp.ConsoleClient/packages.lock.json
+            src/SmsTestApp.WpfClient/packages.lock.json
+            src/SmsTestApp.Contracts/packages.lock.json
+            src/SmsTestApp/packages.lock.json
+
+      - name: Restore
+        run: |
+          dotnet restore src/SmsTestApp.Api/SmsTestApp.Api.csproj
+          dotnet restore src/SmsTestApp.ConsoleClient/SmsTestApp.ConsoleClient.csproj
+          dotnet restore src/SmsTestApp.WpfClient/SmsTestApp.WpfClient.csproj
+
+      - name: Build SmsTestApp.Api
+        run: dotnet build src/SmsTestApp.Api/SmsTestApp.Api.csproj -c Release --no-restore
+
+      - name: Build SmsTestApp.ConsoleClient
+        run: dotnet build src/SmsTestApp.ConsoleClient/SmsTestApp.ConsoleClient.csproj -c Release --no-restore
+
+      - name: Build SmsTestApp.WpfClient
+        run: dotnet build src/SmsTestApp.WpfClient/SmsTestApp.WpfClient.csproj -c Release --no-restore
+
+  test:
+    runs-on: windows-latest
+    needs: build
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+          cache: true
+          cache-dependency-path: |
+            tests/SmsTestApp.UnitTests/packages.lock.json
+            tests/SmsTestApp.UnitTests/SmsTestApp.UnitTests.csproj
+            src/SmsTestApp/packages.lock.json
+
+      - name: Restore
+        run: dotnet restore tests/SmsTestApp.UnitTests/SmsTestApp.UnitTests.csproj
+
+      - name: Test SmsTestApp.UnitTests
+        run: dotnet test tests/SmsTestApp.UnitTests/SmsTestApp.UnitTests.csproj -c Release --no-restore
