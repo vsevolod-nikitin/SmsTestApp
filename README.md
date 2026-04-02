@@ -36,6 +36,7 @@
 
 2. Соберите и запустите контейнеры:
 
+```cd deploy\docker-compose```  
 ```docker-compose up -d --build```
 
 3. После запуска будут доступны следующие сервисы:
@@ -67,11 +68,11 @@ http://localhost:18998/swagger
 2. Настройте `appsettings.json` в проекте — укажите адреса эндпоинтов и строку подключения к БД.
 3. Запустите проект:
 
-```dotnet run --project SmsTestApp.ConsoleClient```
+```dotnet run --project src\SmsTestApp.ConsoleClient```
 
 ### SmsTestApp.WpfClient
 
 1. Настройте секцию `EnvironmentVariables` в `appsettings.json` проекта.
 2. Запустите проект из Visual Studio или командной строки:
 
-```dotnet run --project SmsTestApp.WpfClient```
+```dotnet run --project src\SmsTestApp.WpfClient```
