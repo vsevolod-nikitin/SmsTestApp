@@ -18,6 +18,7 @@ namespace SmsTestApp
         /// </summary>
         /// <param name="services">Функционал построения.</param>
         /// <param name="optionsFactory">Параметры взаимодействия.</param>
+        /// <exception cref="InvalidOperationException">Некорректная конфигурация функционала.</exception>"
         public static void AddProductsApp(this IServiceCollection services, Action<ProductsAppOptions> optionsFactory)
         {
             var options = new ProductsAppOptions();
