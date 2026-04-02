@@ -20,6 +20,12 @@ jobs:
         with:
           dotnet-version: 10.0.x
           cache: true
+          cache-dependency-path: |
+            src/SmsTestApp.Api/packages.lock.json
+            src/SmsTestApp.ConsoleClient/packages.lock.json
+            src/SmsTestApp.WpfClient/packages.lock.json
+            src/SmsTestApp.Contracts/packages.lock.json
+            src/SmsTestApp/packages.lock.json
 
       - name: Restore
         run: |
