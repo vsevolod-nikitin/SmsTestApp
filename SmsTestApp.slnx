@@ -11,13 +11,12 @@
     <Project Path="tests/SmsTestApp.UnitTests/SmsTestApp.UnitTests.csproj" Id="eb779cba-b4fc-46f5-8a1e-49791182179d" />
   </Folder>
   <Folder Name="/Solution Items/">
+    <File Path=".github/workflows/default-actions.yml" />
     <File Path="README.md" />
-  </Folder>
-  
+  </Folder>  
   <Folder Name="/deploy/">
     <Project Path="deploy/docker-compose/docker-compose.dcproj">
       <Build />
     </Project>
-  </Folder>
-  
+  </Folder>  
 </Solution>
