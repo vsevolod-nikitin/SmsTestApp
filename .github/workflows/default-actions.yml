@@ -41,3 +41,27 @@ jobs:
 
       - name: Build SmsTestApp.WpfClient
         run: dotnet build src/SmsTestApp.WpfClient/SmsTestApp.WpfClient.csproj -c Release --no-restore
+
+  test:
+    runs-on: windows-latest
+    needs: build
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+          cache: true
+          cache-dependency-path: |
+            tests/SmsTestApp.UnitTests/packages.lock.json
+            tests/SmsTestApp.UnitTests/SmsTestApp.UnitTests.csproj
+            src/SmsTestApp/packages.lock.json
+
+      - name: Restore
+        run: dotnet restore tests/SmsTestApp.UnitTests/SmsTestApp.UnitTests.csproj
+
+      - name: Test SmsTestApp.UnitTests
+        run: dotnet test tests/SmsTestApp.UnitTests/SmsTestApp.UnitTests.csproj -c Release --no-restore
